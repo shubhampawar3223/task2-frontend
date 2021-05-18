@@ -1,0 +1,26 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@500&display=swap');
+
+
+#prod-image{
+   height: 200px;
+   width:250px;    
+   box-shadow: 15px 15px 30px #888888;
+}
+
+#main-card{
+    margin:"none";
+    margin-bottom: 1px solid black;
+}
+
+#font1{ 
+    color:black;
+    font-size: 1.2rem;
+    font-family: 'Noto Sans TC', sans-serif;
+    text-decoration:none;
+
+}
+
+#font2{ 
+    color:grey;
+}
+
