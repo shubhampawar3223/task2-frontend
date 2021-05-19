@@ -14,7 +14,6 @@ export default function Product(props){
         let url="https://test2task.herokuapp.com/product/"+props.match.params.id;
         let res= await axios.get(url);
         setProduct(()=>setProduct(res.data.data));
-        console.log(res);
         setLoading(false);
     },[]);
 
@@ -23,7 +22,6 @@ export default function Product(props){
      btn1.current.style.display="none";
      btn2.current.style.display="block";
      let cartItem = {productId: product.productId,model:product.model,company:product.company,price:product.price,quantity:1};
-    console.log(cartItem);
     
     if(localStorage.getItem("cart") === undefined || localStorage.getItem("cart") === null){
         let temp1 = [cartItem]
