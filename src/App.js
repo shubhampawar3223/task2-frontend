@@ -3,26 +3,18 @@ import {BrowserRouter,Route,Switch} from 'react-router-dom';
 import Home from './Components/Home';
 import Cart from './Components/Cart';
 import Product from './Components/Product';
+import Orders from './Components/Orders';
 
-export const Context = React.createContext(); 
-
-function App() {
-  const [cart,setCart] = useState([]);
-  
+function App() {  
   return (
-  <Context.Provider
-  value={{
-    cart,
-    setCart
-  }}>  
   <BrowserRouter>
     <Switch>
         <Route exact path="/" component={Home} />
         <Route exact path="/cart" component={Cart} />
         <Route exact path="/product/:id" component={Product} />
+        <Route exact path="/orders" component={Orders} />
     </Switch>
   </BrowserRouter>
-  </Context.Provider>
   );
 }
 
