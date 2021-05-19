@@ -9,23 +9,24 @@ export default function Home(){
     const bt1 = useRef([]);
     const bt2 = useRef([]);
  
-
+    //useEffect() is used to call API , get products data and state setting.
     useEffect(async()=>{
       setLoading(true)  
       let url = "https://test2task.herokuapp.com/products"
       let res= await axios.get(url);
-      //console.log(res.data.data)
+      
       if(res.status === 200){
           setProducts(()=>[...res.data.data])
       }
       setLoading(false);
     },[])
-
+    
+    //addToCart() is used to add selected items to cart.
     const addToCart =(item,i)=>{
     bt1.current[i].style.display = "none";
     bt2.current[i].style.display = "block";
     let cartItem = {productId: item.productId,model:item.model,company:item.company,price:item.price,quantity:1};
-    console.log(cartItem);
+    
     
     if(localStorage.getItem("cart") === undefined || localStorage.getItem("cart") === null){
         let temp1 = [cartItem]
@@ -51,7 +52,7 @@ export default function Home(){
                         
                         return(
 
-                        <div className="card  col-md-3 col-lg-3 " style={{borderTop:"none",borderLeft:"none",borderRight:"none", borderBottom:"2px solid #b0b0b0",borderRadius:"0px"}}>
+                        <div className="card   col-md-6 col-lg-3 " style={{borderTop:"none",borderLeft:"none",borderRight:"none", borderBottom:"2px solid #b0b0b0",borderRadius:"0px"}}>
                                                    
                            <div className="d-flex justify-content-center mt-3" > 
                            <a href={"/product/"+e.productId}><img src={e.pic} id="prod-image" className="card-img-top " /></a>
