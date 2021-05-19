@@ -22,10 +22,12 @@ export default function Cart(props){
 
       const toggle = () => setModal(!modal);  
 
+    //useEffect() is used to call setValues() function.  
     useEffect(()=>{
         setValues();
     },[])
 
+    //setValues() method is used to set items state.
     const setValues = ()=>{
         if(localStorage.getItem("cart") !== null &&  localStorage.getItem("cart") !== undefined){
             let temp=JSON.parse(localStorage.getItem("cart"));
@@ -36,14 +38,16 @@ export default function Cart(props){
         }
     }
 
+   //setValue() method is used to set quantity of selected item. 
    const setValue = (e,i)=>{
       let items = JSON.parse(localStorage.getItem("cart"));;
       items[i].quantity = e.target.value;
-      console.log(items[i])
+      
       localStorage.setItem("cart",JSON.stringify(items));
       setValues();
    }
-    
+   
+   //deleteItem() method is used delete selected item in the cart. 
    const deleteItem = (index)=>{
         let items = JSON.parse(localStorage.getItem("cart"));
         items.splice(index,1);
@@ -51,15 +55,20 @@ export default function Cart(props){
         setValues();   
    }
 
+   //placeOrder() method is used for input validation and for posting and confirming order using API.
    const placeOrder = async()=>{
-       setLoading(true);
      let name= nameRef.current.value;
      let address = addressRef.current.value;
      let mobile = mobileRef.current.value;
-     if(name==='' || address==='' || mobile===''){
-         alert("please Enter all required fields.") 
+     if(name.length ===0 || address.length ===0 || mobile.length ===0){
+         alert("please Enter all required fields.")
+    
+     }
+     else if(mobile.length !== 10){
+      alert("Enter valid 10 digit mobile number.")   
      }
      else{
+      setLoading(true);
         let url="https://test2task.herokuapp.com/save-order";
         let orderTime=new Date().toLocaleString();
         let postData={
@@ -68,12 +77,14 @@ export default function Cart(props){
            mobile:mobile,
            orderItems:orderItems,
            price:totalPrice,         
-           time:orderTime 
+           time:orderTime, 
+           status:"processing"
         }           
        let res =await axios.post(url,postData); 
        if(res.status === 200){
         setLoading(false);   
         alert("Order placed successfully.");
+        localStorage.removeItem("cart");
         history.push('/');
        }
 
@@ -87,6 +98,7 @@ export default function Cart(props){
                <div className="mt-3">
                    {
                     orderItems.length!== 0 ?   
+                   <div> 
                    <table className="table">
                       <thead className="thead-dark">
                           <tr>
@@ -131,11 +143,8 @@ export default function Cart(props){
                         <td style={{fontSize:"1.3rem",color:"red"}}>Total: {totalPrice}<i className="fa fa-inr" aria-hidden="true"></i></td>
                       </tbody>
                    </table>
-                   :
-                   <p className="text-center" style={{fontSize:"1.5rem"}}>Cart is empty.</p>
-                }
-               </div>
-              <div className="d-flex justify-content-center ">
+
+                   <div className="d-flex justify-content-center "> 
               <Button color="primary" onClick={toggle}>Confirm Order</Button>
       <Modal isOpen={modal} toggle={toggle} className={className}>
         <ModalHeader toggle={toggle}>Confirm Order</ModalHeader>
@@ -147,8 +156,7 @@ export default function Cart(props){
                 <p className="mt-2">Payment Mode: COD only</p>
              </div>
              {
-                 loading?
-                 
+                 loading === true?                
                  <div className="d-flex justify-content-center mt-3">
               <i class="fa fa-refresh fa-spin fa-3x fa-fw"></i>
               <span class="sr-only">Loading...</span>
@@ -162,7 +170,13 @@ export default function Cart(props){
           <Button color="secondary" onClick={toggle}>Cancel</Button>
         </ModalFooter>
       </Modal>
-    </div>
+         </div>
+                   </div>
+                   :
+                   <p className="text-center" style={{fontSize:"1.5rem"}}>Cart is empty.</p>
+                }
+               </div>
+
             </div>                 
         </div>
     )
