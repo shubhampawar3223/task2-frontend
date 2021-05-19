@@ -28,8 +28,10 @@ export default function Navbar1(){
           <Nav className="mr-auto" navbar>
           <NavItem>
             <NavLink href="/cart" className="text-light"><i className="bi bi-cart-fill"></i>Cart</NavLink>  
-            </NavItem>  
-            {/* <p style={{position:"absolute",right:"0px",marginTop:"auto",marginBottom:"auto"}}>Hiee</p>   */}
+          </NavItem>  
+          <NavItem>
+            <NavLink href="/orders" className="text-light">Order List</NavLink>  
+          </NavItem>    
           </Nav>
         </Collapse>
       </Navbar>
